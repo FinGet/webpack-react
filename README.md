@@ -12,6 +12,7 @@ npm i webpack react
 >client 文件夹放置入口文件和客户端文件
 
 在build文件夹中新建一个webpack.config.js
+在client文件夹中新建一个app.js和App.jsx
 
 ```javascript
 var path = require('path');
@@ -49,3 +50,117 @@ module.exports = {
  }
 ```
 到此就可以运行`npm run build`进行最简单的打包了！
+
+## React 登场
+安装react-dom
+```
+npm i react-dom
+```
+
+App.jsx
+```
+import React from 'react';
+
+export default class App extends React.Component {
+	render() {
+		return (
+			<div>this is app</div>	
+		)
+	}
+}
+```
+
+app.js
+``` javascript
+/**
+ * 应用入口
+ */
+import ReactDOM from 'react-dom';
+import App from './App.jsx';
+
+ReactDOM.render(App,document.body); // 不推荐这种直接挂在body上，最好是有一个节点
+```
+
+要编译jsx文件则需要在webpack.config.js中配置loader
+```
+var path = require('path');
+module.exports = {
+	// 声明入口
+	entry: {
+		app: path.join(__dirname, '../client/app.js')
+	},
+	// 打包输出
+	output: {
+		.....
+	},
+  module: {
+    rules: [
+			{
+				test: /.jsx$/, // 所有jsx结尾的文件，用babel-loader解析
+				loader: 'babel-loader'
+			}
+	]
+  }
+}
+```
+
+安装babel-loader包
+```
+npm i babel-loader -D // 只在生产环境中用
+```
+
+`babel-loader`也只是一个插件，要使用`babel-loader`还需要babel源码
+
+```
+npm i babel-core -D
+```
+
+到此，以为就完了吗
+babel默认编译的是es6的代码，要想让它支持jsx，还得配置`.babelrc`文件
+.babelrc
+```JavaScript
+{
+  "presets": [
+    ["es2015", { "loose": true }], // 当前文件的语法
+    "react"
+  ]
+}
+```
+>这里附上vue-cli生成的`.babelrc`作对比
+```
+{
+    // 此项指明，转码的规则
+    "presets": [
+        // env项是借助插件babel-preset-env，下面这个配置说的是babel对es6,es7,es8进行转码，并且设置amd,commonjs这样的模块化文件，不进行转码
+        ["env", {
+          "modules": false,
+          "targets": {
+            "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
+          }
+        }],
+        // 下面这个是不同阶段出现的es语法，包含不同的转码插件
+        "stage-2"
+    ],
+    // 下面这个选项是引用插件来处理代码的转换，transform-runtime用来处理全局函数和优化babel编译
+    "plugins": ["transform-runtime"],
+    // 下面指的是在生成的文件中，不产生注释
+    "comments": false,
+    // 下面这段是在特定的环境中所执行的转码规则，当环境变量是下面的test就会覆盖上面的设置
+    "env": {
+        // test 是提前设置的环境变量，如果没有设置BABEL_ENV则使用NODE_ENV，如果都没有设置默认就是development
+        "test": {
+            "presets": ["env", "stage-2"],
+            // instanbul是一个用来测试转码后代码的工具
+            "plugins": ["istanbul"]
+        }
+    }
+}
+```
+
+然后还得安装一堆包
+```
+npm i babel-preset-es2015 babel-preset-es2015-loose babel-preset-react -D
+```
+
+然后执行`npm run build`就可以编译jsx了
+![](https://i.imgur.com/MNZrn9H.png)

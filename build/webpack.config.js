@@ -19,5 +19,13 @@ module.exports = {
 		 * <script src = '/public/app.hash.js'></script>
 		 * 帮我们区分是静态资源还是api请求，或者其他需要特殊处理的请求
 		 */
-	}
+	},
+  module: {
+    rules: [
+			{
+				test: /.jsx$/, // 所有jsx结尾的文件，用babel-loader解析
+				loader: 'babel-loader'
+			}
+		]
+  }
 }

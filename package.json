@@ -5,13 +5,20 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    // 执行 npm run build 则可以进行打包
     "build": "webpack --config build/webpack.config.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "webpack": "^3.10.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2015-loose": "^8.0.0",
+    "babel-preset-react": "^6.24.1"
   }
 }
