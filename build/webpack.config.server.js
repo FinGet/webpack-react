@@ -10,7 +10,7 @@ module.exports = {
     // 服务器端不存在缓存，所有没必要使用[name][hash]
     filename: 'server-entry.js', // 输出文件的名称
     path: path.join(__dirname, '../dist'), // 输出路径
-    publicPath: '',
+    publicPath: '/public',
     /**
      * 最直观的体现，如果publicPath: '',
      * 则在最后打包生成的html中：

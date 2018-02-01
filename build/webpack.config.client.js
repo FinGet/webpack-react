@@ -41,6 +41,8 @@ module.exports = {
     /**
 		 * 打包的时候生成一个html页面，同时将所有的entry都注入到里面
      */
-		new HTMLPlugin()
+		new HTMLPlugin({
+			template: path.join(__dirname,'../client/template.html')
+		})
 	]
 }
