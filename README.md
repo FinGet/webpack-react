@@ -75,10 +75,11 @@ app.js
 /**
  * 应用入口
  */
+import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
 
-ReactDOM.render(App,document.body); // 不推荐这种直接挂在body上，最好是有一个节点
+ReactDOM.render(<App/>,document.body); // 不推荐这种直接挂在body上，最好是有一个节点
 ```
 
 要编译jsx文件则需要在webpack.config.js中配置loader
@@ -98,7 +99,15 @@ module.exports = {
 			{
 				test: /.jsx$/, // 所有jsx结尾的文件，用babel-loader解析
 				loader: 'babel-loader'
-			}
+			},
+			{
+        		test: /.js$/,
+        		loader: 'babel-loader',
+				// node_modules下面的js代码都不需要编译
+				exclude: [
+					path.join(__dirname, '../node_modules')
+				]
+      		}
 	]
   }
 }
@@ -164,3 +173,18 @@ npm i babel-preset-es2015 babel-preset-es2015-loose babel-preset-react -D
 
 然后执行`npm run build`就可以编译jsx了
 ![](https://i.imgur.com/MNZrn9H.png)
+
+## html-webpack-plugin
+
+`npm i html-webpack-plugin`
+
+```
+plugins: [
+   /**
+	 * 打包的时候生成一个html页面，同时将所有的entry都注入到里面
+     */
+	new HTMLPlugin()
+]
+```
+
+![](https://i.imgur.com/poCEB7F.png)

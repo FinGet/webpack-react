@@ -1,4 +1,5 @@
-var path = require('path');
+const path = require('path');
+const HTMLPlugin = require('html-webpack-plugin');
 module.exports = {
 	// 声明入口
 	entry: {
@@ -25,7 +26,21 @@ module.exports = {
 			{
 				test: /.jsx$/, // 所有jsx结尾的文件，用babel-loader解析
 				loader: 'babel-loader'
-			}
+			},
+      {
+        test: /.js$/,
+        loader: 'babel-loader',
+				// node_modules下面的js代码都不需要编译
+				exclude: [
+					path.join(__dirname, '../node_modules')
+				]
+      }
 		]
-  }
+  },
+	plugins: [
+    /**
+		 * 打包的时候生成一个html页面，同时将所有的entry都注入到里面
+     */
+		new HTMLPlugin()
+	]
 }
