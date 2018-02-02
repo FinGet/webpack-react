@@ -356,3 +356,10 @@ if (isDev) {
 
 module.exports = config;
 ```
+`npm i cross-env -D` // 跨平台插件
+package.json
+```
+"scripts":{
+	"dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js"
+}
+```
